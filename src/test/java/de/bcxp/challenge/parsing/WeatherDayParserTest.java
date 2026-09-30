@@ -12,7 +12,10 @@ class WeatherDayParserTest {
 
     @Test
     void parsesValidRowCorrectly() {
-        List<String[]> rows = List.<String[]>of(new String[]{"14", "61", "59"});
+        List<String[]> rows = List.<String[]>of(
+            new String[]{"Day", "MxT", "MnT"},
+            new String[]{"14", "61", "59"}
+        );
         List<WeatherDay> result = parser.parse(rows);
         assertEquals("14", result.get(0).getDay());
         assertEquals(61, result.get(0).getMaxTemp());
@@ -21,7 +24,8 @@ class WeatherDayParserTest {
 
     @Test
     void skipsInvalidRow() {
-        List<String[]> rows = List.of(
+        List<String[]> rows = List.<String[]>of(
+            new String[]{"Day", "MxT", "MnT"},
             new String[]{"1", "notANumber", "60"},
             new String[]{"2", "79", "75"}
         );
@@ -34,6 +38,27 @@ class WeatherDayParserTest {
     void returnsEmptyListForEmptyInput() {
         List<WeatherDay> result = parser.parse(List.of());
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void throwsExceptionWhenNoHeader() {
+        List<String[]> rows = List.<String[]>of(
+            new String[]{"1", "88", "59"},
+            new String[]{"2", "79", "63"}
+        );
+        assertThrows(IllegalArgumentException.class, () -> parser.parse(rows));
+    }
+
+    @Test
+    void parsesCorrectlyWhenColumnsAreInDifferentOrder() {
+        List<String[]> rows = List.<String[]>of(
+            new String[]{"MnT", "Day", "MxT"},
+            new String[]{"59", "14", "61"}
+        );
+        List<WeatherDay> result = parser.parse(rows);
+        assertEquals("14", result.get(0).getDay());
+        assertEquals(61, result.get(0).getMaxTemp());
+        assertEquals(59, result.get(0).getMinTemp());
     }
 
     @Test

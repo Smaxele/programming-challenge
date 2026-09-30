@@ -1,5 +1,7 @@
 package de.bcxp.challenge.parsing;
 
-public class Parser {
-    
+import java.util.List;
+
+public interface Parser<T> {
+      List<T> parse(List<String[]> rows);
 }

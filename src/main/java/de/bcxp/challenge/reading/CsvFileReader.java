@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvFileReader {
+public class CsvFileReader implements DataReader{
 
     public List<String[]> read(String filePath) {
     if (filePath == null) {

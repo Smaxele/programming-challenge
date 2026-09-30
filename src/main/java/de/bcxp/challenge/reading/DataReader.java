@@ -1,5 +1,7 @@
 package de.bcxp.challenge.reading;
 
-public class DataReader {
-    
+import java.util.List;
+
+public interface DataReader {
+    List<String[]> read(String filePath);
 }

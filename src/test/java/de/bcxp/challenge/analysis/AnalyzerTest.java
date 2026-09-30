@@ -1,5 +1,6 @@
-package de.bcxp.challenge.analyzing;
+package de.bcxp.challenge.analysis;
 
+import de.bcxp.challenge.analysis.Analyzer;
 import de.bcxp.challenge.model.WeatherDay;
 import org.junit.jupiter.api.Test;
 import java.util.Comparator;
