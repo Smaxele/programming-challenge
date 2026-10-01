@@ -53,4 +53,11 @@ class AnalyzerTest {
     void throwsExceptionForNullInput() {
         assertThrows(IllegalArgumentException.class, () -> analyzer.findBy(null, Comparator.comparingInt(d -> d.getMaxTemp())));
     }
+    @Test
+    void worksWithArbitraryUnrelatedType() {
+        Analyzer<Integer> intAnalyzer = new Analyzer<>();
+        List<Integer> numbers = List.of(5, 1, 9, 3);
+
+        assertEquals(1, intAnalyzer.findBy(numbers, Comparator.naturalOrder()));
+    }
 }

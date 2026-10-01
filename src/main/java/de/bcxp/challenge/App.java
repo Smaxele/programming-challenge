@@ -1,11 +1,13 @@
 package de.bcxp.challenge;
 
+import de.bcxp.challenge.parsing.CountryParser;
 import de.bcxp.challenge.parsing.Parser;
 
 import java.util.Comparator;
 import java.util.List;
 
 import de.bcxp.challenge.analysis.Analyzer;
+import de.bcxp.challenge.model.Country;
 import de.bcxp.challenge.model.WeatherDay;
 import de.bcxp.challenge.parsing.WeatherDayParser;
 import de.bcxp.challenge.reading.CsvFileReader;
@@ -23,19 +25,26 @@ public final class App {
      */
     public static void main(String... args) {
 
-        // Your preparation code …
-        DataReader reader = new CsvFileReader(",");
-        Parser<WeatherDay> parser = new WeatherDayParser();
-        Analyzer<WeatherDay> analyzer = new Analyzer<>();
-        
-        List<String[]> rows = reader.read("src/main/resources/de/bcxp/challenge/weather.csv");
-        List<WeatherDay> days = parser.parse(rows);
+        DataReader weatherReader = new CsvFileReader(",");
+        Parser<WeatherDay> weatherParser = new WeatherDayParser();
+        Analyzer<WeatherDay> weatherAnalyzer = new Analyzer<>();
+
+        List<String[]> weatherRows = weatherReader.read("src/main/resources/de/bcxp/challenge/weather.csv");
+        List<WeatherDay> days = weatherParser.parse(weatherRows);
         Comparator<WeatherDay> bySpread = Comparator.comparingInt(d -> d.getMaxTemp() - d.getMinTemp());
-        WeatherDay dayWithSmallestTempSpread = analyzer.findBy(days, bySpread);
+        WeatherDay dayWithSmallestTempSpread = weatherAnalyzer.findBy(days, bySpread);
 
         System.out.printf("Day with smallest temperature spread: %s%n", dayWithSmallestTempSpread.getDay());
 
-        String countryWithHighestPopulationDensity = "Some country"; // Your population density analysis function call …
-        System.out.printf("Country with highest population density: %s%n", countryWithHighestPopulationDensity);
+        DataReader countryReader = new CsvFileReader(";");
+        Parser<Country> countryParser = new CountryParser();
+        Analyzer<Country> countryAnalyzer = new Analyzer<>();
+
+        List<String[]> countryRows = countryReader.read("src/main/resources/de/bcxp/challenge/countries.csv");
+        List<Country> countries = countryParser.parse(countryRows);
+        Comparator<Country> byDensityDescending = Comparator.comparingDouble(Country::getDensity).reversed();
+        Country countryWithHighestDensity = countryAnalyzer.findBy(countries, byDensityDescending);
+
+        System.out.printf("Country with highest population density: %s%n", countryWithHighestDensity.getName());
     }
 }

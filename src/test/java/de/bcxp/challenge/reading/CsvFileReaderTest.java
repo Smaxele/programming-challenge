@@ -57,4 +57,13 @@ class CsvFileReaderTest {
 
         assertArrayEquals(new String[]{"a", "b", "c"}, rows.get(0));
     }
+    @Test
+    void read_nullPath_throws() {
+        assertThrows(IllegalArgumentException.class, () -> new CsvFileReader().read(null));
+    }
+
+    @Test
+    void read_missingFile_throws() {
+        assertThrows(IllegalArgumentException.class, () -> new CsvFileReader().read("does/not/exist.csv"));
+    }
 }
