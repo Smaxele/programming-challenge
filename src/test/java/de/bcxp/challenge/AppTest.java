@@ -35,7 +35,7 @@ class AppTest {
 
     @Test
       void dayWithSmallestTemperatureSpread() {
-          DataReader reader = new CsvFileReader();
+          DataReader reader = new CsvFileReader(",");
           Parser<WeatherDay> parser = new WeatherDayParser();
           Analyzer<WeatherDay> analyzer = new Analyzer<>();
 

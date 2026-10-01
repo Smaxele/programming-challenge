@@ -8,6 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CsvFileReader implements DataReader{
+
+    private final String delimiter;
+
+    public CsvFileReader() {
+        this(",");
+    }
+
+    public CsvFileReader(String delimiter) {
+        this.delimiter = delimiter;
+    }
     @Override
     public List<String[]> read(String filePath) {
     if (filePath == null) {
@@ -22,7 +32,7 @@ public class CsvFileReader implements DataReader{
     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
         String line;
         while ((line = br.readLine()) != null) {
-            rows.add(line.split(","));
+            rows.add(line.split(delimiter));
         }
     } catch (IOException e) {
         throw new IllegalArgumentException("Could not read file: " + filePath,e);

@@ -1,17 +1,21 @@
 package de.bcxp.challenge.model;
 
 public class Country {
-    private final String day;
-    private final int maxTemp;
-    private final int minTemp;
+    private final String name;
+    private final double population;
+    private final double area;
 
-    public Country(String day, int maxTemp, int minTemp) {
-        this.day = day;
-        this.maxTemp = maxTemp;
-        this.minTemp = minTemp;
+    public Country(String name, double population, double area) {
+        this.name = name;
+        this.population = population;
+        this.area = area;
     }
 
-    public String getDay() { return day; }
-    public int getMaxTemp() { return maxTemp; }
-    public int getMinTemp() { return minTemp; }
+    public String getName() { return name; }
+    public double getPopulation() { return population; }
+    public double getArea() { return area; }
+
+    public double getDensity() {
+        return population / area;
+    }
 }

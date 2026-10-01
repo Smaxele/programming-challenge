@@ -24,7 +24,7 @@ public final class App {
     public static void main(String... args) {
 
         // Your preparation code …
-        DataReader reader = new CsvFileReader();
+        DataReader reader = new CsvFileReader(",");
         Parser<WeatherDay> parser = new WeatherDayParser();
         Analyzer<WeatherDay> analyzer = new Analyzer<>();
         
