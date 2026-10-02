@@ -30,7 +30,7 @@ public class WeatherDayParser implements Parser<WeatherDay>{
                 continue;
             }
             try {
-                if (Integer.parseInt(row[mxTInd].strip()) <= Integer.parseInt(row[mnTInd].strip())) {
+                if (Integer.parseInt(row[mxTInd].strip()) < Integer.parseInt(row[mnTInd].strip())) {
                     logger.warning("Skipping invalid row, maximum is smaller than minimum: " + Arrays.toString(row));
                     continue;
                 }
