@@ -44,9 +44,7 @@ public class CountryParser implements Parser<Country> {
     }
 
     private double parseNumber(String raw) {
-        if (raw.contains(",")) {
-            raw = raw.replace(".", "").replace(",", ".");
-        }
-        return Double.parseDouble(raw);
+        String normalized = raw.strip().replace(".", "").replace(",", ".");
+        return Double.parseDouble(normalized);
     }
 }
