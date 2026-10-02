@@ -30,7 +30,11 @@ public class WeatherDayParser implements Parser<WeatherDay>{
                 continue;
             }
             try {
-                result.add(new WeatherDay(row[dayInd], Integer.parseInt(row[mxTInd]), Integer.parseInt(row[mnTInd])));
+                if (Integer.parseInt(row[mxTInd].strip()) <= Integer.parseInt(row[mnTInd].strip())) {
+                    logger.warning("Skipping invalid row, maximum is smaller than minimum: " + Arrays.toString(row));
+                    continue;
+                }
+                result.add(new WeatherDay(row[dayInd], Integer.parseInt(row[mxTInd].strip()), Integer.parseInt(row[mnTInd].strip())));
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                 logger.warning("Skipping invalid row: " + Arrays.toString(row));
             }

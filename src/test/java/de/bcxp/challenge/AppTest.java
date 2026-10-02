@@ -9,6 +9,7 @@ import de.bcxp.challenge.model.WeatherDay;
 import de.bcxp.challenge.parsing.WeatherDayParser;
 import de.bcxp.challenge.reading.CsvFileReader;
 import de.bcxp.challenge.reading.DataReader;
+import de.bcxp.challenge.reading.JsonFileReader;
 import de.bcxp.challenge.parsing.CountryParser;
 import de.bcxp.challenge.parsing.Parser;
 
@@ -61,6 +62,20 @@ class AppTest {
         Country result = analyzer.findBy(countries, byDensityDescending);
 
         assertEquals("Malta", result.getName());
+    }
+
+    @Test
+    void dayWithSmallestTemperatureSpreadJSON() {
+        DataReader reader = new JsonFileReader();
+        Parser<WeatherDay> parser = new WeatherDayParser();
+        Analyzer<WeatherDay> analyzer = new Analyzer<>();
+
+        List<String[]> rows = reader.read("src/main/resources/de/bcxp/challenge/weather.json");
+        List<WeatherDay> days = parser.parse(rows);
+        Comparator<WeatherDay> bySpread = Comparator.comparingInt(d -> d.getMaxTemp() - d.getMinTemp());
+        WeatherDay result = analyzer.findBy(days, bySpread);
+
+        assertEquals("14", result.getDay());
     }
 
 }

@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException; 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class CsvFileReader implements DataReader{
 
@@ -32,7 +33,7 @@ public class CsvFileReader implements DataReader{
     try (BufferedReader br = new BufferedReader(new FileReader(file))) {
         String line;
         while ((line = br.readLine()) != null) {
-            rows.add(line.split(delimiter));
+            rows.add(line.split(Pattern.quote(delimiter)));
         }
     } catch (IOException e) {
         throw new IllegalArgumentException("Could not read file: " + filePath,e);

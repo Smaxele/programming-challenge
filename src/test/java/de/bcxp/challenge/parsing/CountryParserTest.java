@@ -1,5 +1,7 @@
 package de.bcxp.challenge.parsing;
 import de.bcxp.challenge.model.Country;
+import de.bcxp.challenge.model.WeatherDay;
+
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
@@ -52,10 +54,30 @@ class CountryParserTest {
     void parse_nullRows_throws() {
         assertThrows(IllegalArgumentException.class, () -> parser.parse(null));
     }
-
     @Test
     void parse_missingHeader_throws() {
         List<String[]> rows = List.<String[]>of(new String[]{"Foo", "Bar"});
+        assertThrows(IllegalArgumentException.class, () -> parser.parse(rows));
+    }
+    @Test
+    void parse_zeroArea_skipsRow() {
+        List<String[]> rows = List.of(
+            new String[]{"Name", "Capital", "Accession", "Population", "Area (km²)", "GDP (US$ M)", "HDI", "MEPs"},
+            new String[]{"Nowhere", "City", "2000", "1000", "0", "0", "0.5", "0"}
+        );
+        assertTrue(parser.parse(rows).isEmpty());
+    }
+    @Test
+    void parse_emptyRows_returnsEmptyList() {
+        assertTrue(parser.parse(List.of()).isEmpty());
+    }
+
+    @Test
+    void parse_renamedAreaColumn_throwsClearError() {
+        List<String[]> rows = List.of(
+            new String[]{"Name", "Population", "Area (m²)"},  // not "Area (km²)"
+            new String[]{"Somewhere", "1000", "100"}
+        );
         assertThrows(IllegalArgumentException.class, () -> parser.parse(rows));
     }
 }

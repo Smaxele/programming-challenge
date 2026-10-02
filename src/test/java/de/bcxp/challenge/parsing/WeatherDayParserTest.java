@@ -65,4 +65,32 @@ class WeatherDayParserTest {
     void throwsExceptionForNullInput() {
         assertThrows(IllegalArgumentException.class, () -> parser.parse(null));
     }
+
+    @Test
+    void parse_invertedTemps_skipsRow() {
+        // MnT (59) > MxT (50) — physically invalid
+        List<String[]> rows = List.of(
+            new String[]{"Day","MxT","MnT"},
+            new String[]{"1","50","59"}
+        );
+        assertTrue(parser.parse(rows).isEmpty());
+    }
+    @Test
+    void parse_emptyRows_returnsEmptyList() {
+        assertTrue(parser.parse(List.of()).isEmpty());
+    }
+
+    @Test
+    void parse_whitespacePaddedTemperatures_stillParses() {
+        List<String[]> rows = List.of(
+            new String[]{"Day", "MxT", "MnT"},
+            new String[]{"1", " 88", "59 "}
+        );
+
+        List<WeatherDay> result = parser.parse(rows);
+
+        assertEquals(1, result.size());
+        assertEquals(88, result.get(0).getMaxTemp());
+        assertEquals(59, result.get(0).getMinTemp());
+    }
 }

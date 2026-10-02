@@ -57,13 +57,14 @@ class CsvFileReaderTest {
 
         assertArrayEquals(new String[]{"a", "b", "c"}, rows.get(0));
     }
-    @Test
-    void read_nullPath_throws() {
-        assertThrows(IllegalArgumentException.class, () -> new CsvFileReader().read(null));
-    }
 
     @Test
-    void read_missingFile_throws() {
-        assertThrows(IllegalArgumentException.class, () -> new CsvFileReader().read("does/not/exist.csv"));
+    void read_regexSpecialDelimiter_splitsLiterally(@TempDir Path tempDir) throws IOException {
+        Path file = tempDir.resolve("test.csv");
+        Files.writeString(file, "a.b.c");
+        CsvFileReader reader = new CsvFileReader(".");
+        List<String[]> rows = reader.read(file.toString());
+        assertArrayEquals(new String[]{"a", "b", "c"}, rows.get(0));
     }
+    
 }

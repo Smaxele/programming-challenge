@@ -23,7 +23,7 @@ public class CountryParser implements Parser<Country> {
                 nameInd = Arrays.asList(row).indexOf("Name");
                 popInd = Arrays.asList(row).indexOf("Population");
                 areaInd = Arrays.asList(row).indexOf("Area (km²)");
-                if (nameInd == -1) {
+                if (nameInd == -1 || popInd == -1 || areaInd == -1) {
                     throw new IllegalArgumentException("CSV file must have a header row with Name, Population, Area (km²) columns");
                 }
                 continue;
@@ -31,6 +31,9 @@ public class CountryParser implements Parser<Country> {
             try {
                 double population = parseNumber(row[popInd]);
                 double area = parseNumber(row[areaInd]);
+                if (area <= 0) {
+                    throw new NumberFormatException("Area must be positive");
+                }
                 result.add(new Country(row[nameInd], population, area));
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                 logger.warning("Skipping invalid row: " + Arrays.toString(row));
