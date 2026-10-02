@@ -66,5 +66,16 @@ class CsvFileReaderTest {
         List<String[]> rows = reader.read(file.toString());
         assertArrayEquals(new String[]{"a", "b", "c"}, rows.get(0));
     }
-    
+
+    @Test
+    void read_quotedFieldContainingDelimiter_staysOneField(@TempDir Path tempDir) throws IOException {
+        Path file = tempDir.resolve("test.csv");
+        Files.writeString(file, "Name,Age\n\"Doe, John\",42");
+
+        List<String[]> rows = reader.read(file.toString());
+
+        assertArrayEquals(new String[]{"Name", "Age"}, rows.get(0));
+        assertArrayEquals(new String[]{"Doe, John", "42"}, rows.get(1));
+    }
+
 }
