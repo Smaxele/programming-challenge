@@ -14,4 +14,9 @@ public class WeatherDay {
     public String getDay() { return day; }
     public int getMaxTemp() { return maxTemp; }
     public int getMinTemp() { return minTemp; }
+
+    @Override
+    public String toString() {
+        return "WeatherDay{day='" + day + "', maxTemp=" + maxTemp + ", minTemp=" + minTemp + "}";
+    }
 }

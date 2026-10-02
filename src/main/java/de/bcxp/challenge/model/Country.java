@@ -18,4 +18,9 @@ public class Country {
     public double getDensity() {
         return population / area;
     }
+
+    @Override
+    public String toString() {
+        return "Country{name='" + name + "', population=" + population + ", area=" + area + "}";
+    }
 }

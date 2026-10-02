@@ -26,7 +26,6 @@ public final class App {
      */
     public static void main(String... args) {
 
-        //DataReader weatherReader = new JsonFileReader();
         DataReader weatherReader = new CsvFileReader(",");
         Parser<WeatherDay> weatherParser = new WeatherDayParser();
         Analyzer<WeatherDay> weatherAnalyzer = new Analyzer<>();
