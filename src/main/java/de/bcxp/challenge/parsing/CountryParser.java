@@ -16,25 +16,25 @@ public class CountryParser implements Parser<Country> {
             throw new IllegalArgumentException("Rows must not be null");
         }
         List<Country> result = new ArrayList<>();
-        int nameInd = -1, popInd = -1, areaInd = -1;
+        int nameIndex = -1, populationIndex = -1, areaIndex = -1;
 
         for (String[] row : rows) {
-            if (nameInd == -1) {
-                nameInd = Arrays.asList(row).indexOf("Name");
-                popInd = Arrays.asList(row).indexOf("Population");
-                areaInd = Arrays.asList(row).indexOf("Area (km²)");
-                if (nameInd == -1 || popInd == -1 || areaInd == -1) {
+            if (nameIndex == -1) {
+                nameIndex = Arrays.asList(row).indexOf("Name");
+                populationIndex = Arrays.asList(row).indexOf("Population");
+                areaIndex = Arrays.asList(row).indexOf("Area (km²)");
+                if (nameIndex == -1 || populationIndex == -1 || areaIndex == -1) {
                     throw new IllegalArgumentException("CSV file must have a header row with Name, Population, Area (km²) columns");
                 }
                 continue;
             }
             try {
-                double population = parseGerEUNumber(row[popInd]);
-                double area = parseGerEUNumber(row[areaInd]);
+                double population = parseGerEUNumber(row[populationIndex]);
+                double area = parseGerEUNumber(row[areaIndex]);
                 if (area <= 0) {
                     throw new NumberFormatException("Area must be positive");
                 }
-                result.add(new Country(row[nameInd], population, area));
+                result.add(new Country(row[nameIndex], population, area));
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                 logger.warning("Skipping invalid row: " + Arrays.toString(row));
             }

@@ -17,24 +17,24 @@ public class WeatherDayParser implements Parser<WeatherDay>{
               throw new IllegalArgumentException("Rows must not be null");
           }
         List<WeatherDay> result = new ArrayList<>();
-        int dayInd = -1, mxTInd = -1, mnTInd = -1;
-        
+        int dayIndex = -1, maxTempIndex = -1, minTempIndex = -1;
+
         for (String[] row : rows) {
-            if (dayInd == -1) {
-                dayInd = Arrays.asList(row).indexOf("Day");
-                mxTInd = Arrays.asList(row).indexOf("MxT");
-                mnTInd = Arrays.asList(row).indexOf("MnT");
-                if (dayInd == -1 || mxTInd == -1 || mnTInd == -1) {
+            if (dayIndex == -1) {
+                dayIndex = Arrays.asList(row).indexOf("Day");
+                maxTempIndex = Arrays.asList(row).indexOf("MxT");
+                minTempIndex = Arrays.asList(row).indexOf("MnT");
+                if (dayIndex == -1 || maxTempIndex == -1 || minTempIndex == -1) {
                     throw new IllegalArgumentException("CSV file must have a header row with Day, MxT, MnT columns");
                 }
                 continue;
             }
             try {
-                if (Integer.parseInt(row[mxTInd].strip()) < Integer.parseInt(row[mnTInd].strip())) {
+                if (Integer.parseInt(row[maxTempIndex].strip()) < Integer.parseInt(row[minTempIndex].strip())) {
                     logger.warning("Skipping invalid row, maximum is smaller than minimum: " + Arrays.toString(row));
                     continue;
                 }
-                result.add(new WeatherDay(row[dayInd], Integer.parseInt(row[mxTInd].strip()), Integer.parseInt(row[mnTInd].strip())));
+                result.add(new WeatherDay(row[dayIndex], Integer.parseInt(row[maxTempIndex].strip()), Integer.parseInt(row[minTempIndex].strip())));
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
                 logger.warning("Skipping invalid row: " + Arrays.toString(row));
             }
