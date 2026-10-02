@@ -46,6 +46,14 @@
             <artifactId>gson</artifactId>
             <version>2.10.1</version>
         </dependency>
+        <!-- Replaces the hand-rolled line.split(delimiter) CSV parsing with a
+             libary parser (quoted/escaped fields, embedded
+             delimiters and newlines, BOM handling). -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.10.0</version>
+        </dependency>
     </dependencies>
     
 

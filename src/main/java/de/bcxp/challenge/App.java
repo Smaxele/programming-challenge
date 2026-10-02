@@ -31,7 +31,7 @@ public final class App {
         Parser<WeatherDay> weatherParser = new WeatherDayParser();
         Analyzer<WeatherDay> weatherAnalyzer = new Analyzer<>();
 
-        List<String[]> weatherRows = weatherReader.read("src/main/resources/de/bcxp/challenge/weather.json");
+        List<String[]> weatherRows = weatherReader.read("src/main/resources/de/bcxp/challenge/weather.csv");
         List<WeatherDay> days = weatherParser.parse(weatherRows);
         Comparator<WeatherDay> bySpread = Comparator.comparingInt(d -> d.getMaxTemp() - d.getMinTemp());
         WeatherDay dayWithSmallestTempSpread = weatherAnalyzer.findBy(days, bySpread);
