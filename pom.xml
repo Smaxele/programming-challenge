@@ -41,6 +41,7 @@
             <version>5.8.0-M1</version>
             <scope>test</scope>
         </dependency>
+        <!-- Implementation of a JSON libary for testing and quick itteration -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

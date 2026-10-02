@@ -24,7 +24,7 @@ public class WeatherDayParser implements Parser<WeatherDay>{
                 dayInd = Arrays.asList(row).indexOf("Day");
                 mxTInd = Arrays.asList(row).indexOf("MxT");
                 mnTInd = Arrays.asList(row).indexOf("MnT");
-                if (dayInd == -1) {
+                if (dayInd == -1 || mxTInd == -1 || mnTInd == -1) {
                     throw new IllegalArgumentException("CSV file must have a header row with Day, MxT, MnT columns");
                 }
                 continue;
