@@ -29,8 +29,8 @@ public class CountryParser implements Parser<Country> {
                 continue;
             }
             try {
-                double population = parseNumber(row[popInd]);
-                double area = parseNumber(row[areaInd]);
+                double population = parseGerEUNumber(row[popInd]);
+                double area = parseGerEUNumber(row[areaInd]);
                 if (area <= 0) {
                     throw new NumberFormatException("Area must be positive");
                 }
@@ -43,7 +43,7 @@ public class CountryParser implements Parser<Country> {
         return result;
     }
 
-    private double parseNumber(String raw) {
+    private double parseGerEUNumber(String raw) {
         String normalized = raw.strip().replace(".", "").replace(",", ".");
         return Double.parseDouble(normalized);
     }
