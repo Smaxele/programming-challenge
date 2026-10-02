@@ -93,4 +93,12 @@ class WeatherDayParserTest {
         assertEquals(88, result.get(0).getMaxTemp());
         assertEquals(59, result.get(0).getMinTemp());
     }
+    @Test
+    void throwsExceptionWhenMxTColumnMissing() {
+        List<String[]> rows = List.<String[]>of(
+            new String[]{"Day", "Max", "MnT"},  // "MxT" renamed to "Max"
+            new String[]{"1", "88", "59"}
+        );
+        assertThrows(IllegalArgumentException.class, () -> parser.parse(rows));
+    }
 }
